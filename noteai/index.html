@@ -520,16 +520,26 @@ Analyze the following user-uploaded content (text and images) and generate a com
             `;
 
         if (useServer) {
+            // Check payload size before sending
+            const payload = JSON.stringify({
+                provider,
+                model,
+                prompt: systemPrompt,
+                processedFiles
+            });
+            
+            const payloadSize = new Blob([payload]).size;
+            const limit = 4.5 * 1024 * 1024; // 4.5MB limit
+
+            if (payloadSize > limit) {
+                throw new Error(`File too large (${(payloadSize / 1024 / 1024).toFixed(2)}MB). Vercel limit is 4.5MB. Please use your own API Key to bypass this limit.`);
+            }
+
             displayStatus(`Sending to Server (Vercel)...`);
             const response = await fetch('/api/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    provider,
-                    model,
-                    prompt: systemPrompt,
-                    processedFiles
-                })
+                body: payload
             });
 
             if (!response.ok) {
@@ -682,7 +692,7 @@ async function callGemini(apiKey, model, prompt, processedFiles) {
                         const imageParts = [];
                         for (let i = 1; i <= pdf.numPages; i++) {
                             const page = await pdf.getPage(i);
-                            const viewport = page.getViewport({ scale: 1.5 });
+                            const viewport = page.getViewport({ scale: 1.2 }); // Reduced scale to save size
                             const canvas = document.createElement('canvas');
                             const context = canvas.getContext('2d');
                             canvas.height = viewport.height;
@@ -690,7 +700,8 @@ async function callGemini(apiKey, model, prompt, processedFiles) {
 
                             await page.render({ canvasContext: context, viewport: viewport }).promise;
                             
-                            const base64Image = canvas.toDataURL('image/jpeg').split(',')[1];
+                            // Use 0.8 quality to reduce size
+                            const base64Image = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
                             imageParts.push({
                                 inline_data: {
                                     mime_type: 'image/jpeg',
