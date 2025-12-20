@@ -6,6 +6,11 @@
     <title>NoteForge AI - AI-Powered Study Notes</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/analytics/script.js"></script>
     <style>
         :root {
             --primary-color: #0a0a0a;
@@ -224,6 +229,110 @@
             margin-top: 1rem;
             text-align: right;
         }
+
+        /* Toggle Switch Styles */
+        .view-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            justify-content: flex-end;
+        }
+
+        .toggle-btn {
+            background-color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            color: var(--muted-text-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background-color: #252525;
+        }
+
+        /* Markdown Rendered Styles */
+        #html-preview {
+            background-color: #050505;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-height: 500px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        #html-preview h1, #html-preview h2, #html-preview h3 {
+            color: var(--secondary-color);
+            margin-top: 1.5em;
+        }
+
+        #html-preview p {
+            margin-bottom: 1em;
+        }
+
+        #html-preview ul, #html-preview ol {
+            padding-left: 20px;
+            margin-bottom: 1em;
+        }
+
+        #html-preview li {
+            margin-bottom: 0.5em;
+        }
+
+        #html-preview code {
+            background-color: #1a1a1a;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+
+        #html-preview pre {
+            background-color: #1a1a1a;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+        }
+
+        #html-preview pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        #html-preview blockquote {
+            border-left: 4px solid var(--accent-color);
+            margin: 0;
+            padding-left: 1rem;
+            color: var(--muted-text-color);
+            background-color: rgba(61, 139, 253, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        #html-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1em;
+        }
+
+        #html-preview th, #html-preview td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+
+        #html-preview th {
+            background-color: #1a1a1a;
+        }
         
         /* API Config Styles */
         .api-config {
@@ -370,8 +479,17 @@
             <div id="status"></div>
 
             <div class="results-section" hidden>
-                <h2>Generated Notes</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h2 style="margin: 0;">Generated Notes</h2>
+                    <div class="view-controls">
+                        <button id="view-raw-btn" class="toggle-btn active">Raw Markdown</button>
+                        <button id="view-preview-btn" class="toggle-btn">Preview</button>
+                    </div>
+                </div>
+                
                 <pre id="md-preview"></pre>
+                <div id="html-preview" hidden></div>
+                
                 <div class="results-actions">
                     <button id="download-btn" class="btn">Download .md</button>
                 </div>
@@ -418,6 +536,9 @@ const generateBtn = document.getElementById('generate-btn');
 const statusDiv = document.getElementById('status');
 const resultsSection = document.querySelector('.results-section');
 const mdPreview = document.getElementById('md-preview');
+const htmlPreview = document.getElementById('html-preview');
+const viewRawBtn = document.getElementById('view-raw-btn');
+const viewPreviewBtn = document.getElementById('view-preview-btn');
 const downloadBtn = document.getElementById('download-btn');
 
 // API Config Elements
@@ -469,6 +590,27 @@ fileInput.addEventListener('change', () => {
 generateBtn.addEventListener('click', handleGeneration);
 downloadBtn.addEventListener('click', downloadMarkdown);
 checkModelsBtn.addEventListener('click', checkAvailableModels);
+
+viewRawBtn.addEventListener('click', () => {
+    viewRawBtn.classList.add('active');
+    viewPreviewBtn.classList.remove('active');
+    mdPreview.hidden = false;
+    htmlPreview.hidden = true;
+});
+
+viewPreviewBtn.addEventListener('click', () => {
+    viewRawBtn.classList.remove('active');
+    viewPreviewBtn.classList.add('active');
+    mdPreview.hidden = true;
+    htmlPreview.hidden = false;
+    
+    // Render Markdown
+    if (markdownContent) {
+        htmlPreview.innerHTML = marked.parse(markdownContent);
+    } else {
+        htmlPreview.innerHTML = '<p style="color: #888;">No content to preview.</p>';
+    }
+});
 
 apiProviderSelect.addEventListener('change', () => {
     // Only Gemini is supported now
@@ -546,6 +688,8 @@ Analyze the following user-uploaded content (text and images) and generate a com
                 let errorMsg = 'Server request failed.';
                 if (response.status === 413) {
                     errorMsg = 'File too large. Vercel Serverless functions have a 4.5MB payload limit. Please try a smaller file or use your own API Key.';
+                } else if (response.status === 429) {
+                    errorMsg = 'Sorry, the server API doesn\'t work. You need to use your own API Key and you need Google AI Pro to use the API.';
                 } else {
                     try {
                         const errorData = await response.json();
@@ -569,6 +713,12 @@ Analyze the following user-uploaded content (text and images) and generate a com
         }
 
         mdPreview.textContent = markdownContent;
+        
+        // If in preview mode, update that too
+        if (!htmlPreview.hidden) {
+            htmlPreview.innerHTML = marked.parse(markdownContent);
+        }
+        
         resultsSection.hidden = false;
         displayStatus('Notes generated successfully!', 'success');
 
