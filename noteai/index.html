@@ -379,7 +379,8 @@
         </main>
 
         <footer>
-            <p>Built for the AI community. Deploy for free on <a href="https://pages.github.com/" target="_blank">GitHub Pages</a> or <a href="https://netlify.com" target="_blank">Netlify</a>.</p>
+            <p>Built for the lazy people.</p>
+            <p>&copy; Ander507 Inc. All rights reserved.</p>
             <a href="https://ko-fi.com/ander507" target="_blank" class="donate-btn">☕ Buy me a coffee</a>
         </footer>
     </div>
@@ -533,11 +534,15 @@ Analyze the following user-uploaded content (text and images) and generate a com
 
             if (!response.ok) {
                 let errorMsg = 'Server request failed.';
-                try {
-                    const errorData = await response.json();
-                    errorMsg = errorData.error || errorMsg;
-                } catch (e) {
-                    errorMsg = `Server Error (${response.status}): ${response.statusText || 'Unknown Error'}`;
+                if (response.status === 413) {
+                    errorMsg = 'File too large. Vercel Serverless functions have a 4.5MB payload limit. Please try a smaller file or use your own API Key.';
+                } else {
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = `Server Error (${response.status}): ${response.statusText || 'Unknown Error'}`;
+                    }
                 }
                 throw new Error(errorMsg);
             }
