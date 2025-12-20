@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteForge AI - AI-Powered Study Notes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #ffffff;
+            --accent-color: #3d8bfd;
+            --accent-hover-color: #2c7afc;
+            --border-color: #333;
+            --background-color: #0f0f0f;
+            --text-color: #e0e0e0;
+            --muted-text-color: #888;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--muted-text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        main {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+        }
+        
+        .upload-section {
+            text-align: center;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .upload-section:hover {
+            border-color: var(--accent-color);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .file-label {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        #file-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            width: 100%;
+            text-align: left;
+        }
+
+        .file-item {
+            background-color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: var(--muted-text-color);
+        }
+
+        .file-status {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .file-status.done {
+            color: var(--success-color);
+        }
+        
+        .file-status.error {
+            color: var(--error-color);
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        
+        .btn:hover {
+            background-color: var(--accent-hover-color);
+        }
+
+        .btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        .btn .loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #status {
+            text-align: center;
+            margin: 1rem 0;
+            min-height: 20px;
+        }
+        .error { color: var(--error-color); }
+        .success { color: var(--success-color); }
+        
+        .results-section {
+            margin-top: 2rem;
+        }
+        
+        #md-preview {
+            background-color: #050505;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .results-actions {
+            margin-top: 1rem;
+            text-align: right;
+        }
+        
+        /* API Config Styles */
+        .api-config {
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: #1a1a1a;
+        }
+        
+        .api-config details {
+            width: 100%;
+        }
+        
+        .api-config summary {
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            list-style: none;
+            outline: none;
+        }
+        
+        .api-config summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .config-content {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            box-sizing: border-box;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: var(--muted-text-color);
+            margin-top: 0.25rem;
+        }
+
+        #download-btn {
+            background-color: var(--success-color);
+        }
+
+        .donate-btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: #1a1a1a;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .donate-btn:hover {
+            background-color: #252525;
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        footer {
+            margin-top: 2rem;
+            color: var(--muted-text-color);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NoteForge AI</h1>
+            <p>Upload lectures, PDFs, slides, or notes → Get perfect Obsidian-ready Markdown in seconds.</p>
+        </header>
+
+        <main>
+            <div class="api-config">
+                <details open>
+                    <summary>⚙️ API Settings (Configure Provider)</summary>
+                    <div class="config-content">
+                        <div class="form-group">
+                            <label for="api-provider">AI Provider:</label>
+                            <select id="api-provider">
+                                <option value="gemini">Google Gemini (Direct)</option>
+                                <option value="openrouter">OpenRouter (Free Models)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="api-key">API Key:</label>
+                            <input type="password" id="api-key" placeholder="Paste your API Key here">
+                            <p class="help-text" id="api-help">Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="api-model">Model:</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="api-model" value="gemini-flash-lite-latest">
+                                <button id="check-models-btn" class="btn" style="width: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">Check Models</button>
+                            </div>
+                            <p class="help-text" id="model-help">Default: gemini-flash-lite-latest</p>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="upload-section">
+                <label for="file-input" class="file-label">Click here to select files</label>
+                <input type="file" id="file-input" accept=".pdf,image/jpeg,image/png,.txt" multiple>
+                <ul id="file-list"></ul>
+            </div>
+
+            <button id="generate-btn" class="btn">Generate Notes</button>
+
+            <div id="status"></div>
+
+            <div class="results-section" hidden>
+                <h2>Generated Notes</h2>
+                <pre id="md-preview"></pre>
+                <div class="results-actions">
+                    <button id="download-btn" class="btn">Download .md</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built for the AI community. Deploy for free on <a href="https://pages.github.com/" target="_blank">GitHub Pages</a> or <a href="https://netlify.com" target="_blank">Netlify</a>.</p>
+            <a href="https://ko-fi.com/ander507" target="_blank" class="donate-btn">☕ Buy me a coffee</a>
+        </footer>
+    </div>
+
+    <script>
+// ===================================================================================
+// === CONFIGURATION                                                               ===
+// ===================================================================================
+
+// ===================================================================================
+// === APPLICATION LOGIC                                                           ===
+// ===================================================================================
+
+// Set up PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+} else {
+    console.error("PDF.js library failed to load.");
+}
+
+// DOM Elements
+const fileInput = document.getElementById('file-input');
+const fileListDisplay = document.getElementById('file-list');
+const generateBtn = document.getElementById('generate-btn');
+const statusDiv = document.getElementById('status');
+const resultsSection = document.querySelector('.results-section');
+const mdPreview = document.getElementById('md-preview');
+const downloadBtn = document.getElementById('download-btn');
+
+// API Config Elements
+const apiProviderSelect = document.getElementById('api-provider');
+const apiKeyInput = document.getElementById('api-key');
+const apiModelInput = document.getElementById('api-model');
+const checkModelsBtn = document.getElementById('check-models-btn');
+const apiHelpText = document.getElementById('api-help');
+const modelHelpText = document.getElementById('model-help');
+
+let markdownContent = '';
+
+// --- Event Listeners ---
+
+fileInput.addEventListener('change', () => {
+    fileListDisplay.innerHTML = '';
+    const files = Array.from(fileInput.files);
+    
+    files.forEach((file, index) => {
+        const li = document.createElement('li');
+        li.className = 'file-item';
+        
+        let icon = '📄';
+        const fileType = file.type || '';
+        const fileName = file.name.toLowerCase();
+        
+        if (fileType === 'application/pdf' || fileName.endsWith('.pdf')) {
+            icon = '📕';
+        } else if (fileType.startsWith('image/') || /\.(jpg|jpeg|png|webp)$/.test(fileName)) {
+            icon = '🖼️';
+        }
+        
+        li.innerHTML = `
+            <div class="file-info">
+                <span class="file-icon">${icon}</span>
+                <div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${(file.size / 1024).toFixed(2)} KB</div>
+                </div>
+            </div>
+            <div class="file-status" id="status-${index}">Ready</div>
+        `;
+        fileListDisplay.appendChild(li);
+    });
+});
+
+generateBtn.addEventListener('click', handleGeneration);
+downloadBtn.addEventListener('click', downloadMarkdown);
+checkModelsBtn.addEventListener('click', checkAvailableModels);
+
+apiProviderSelect.addEventListener('change', () => {
+    const provider = apiProviderSelect.value;
+    if (provider === 'gemini') {
+        apiHelpText.innerHTML = 'Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>';
+        apiModelInput.value = 'gemini-flash-lite-latest';
+        modelHelpText.textContent = 'Default: gemini-flash-lite-latest';
+    } else if (provider === 'openrouter') {
+        apiHelpText.innerHTML = 'Get a key from <a href="https://openrouter.ai/keys" target="_blank">OpenRouter</a> (Free models available)';
+        apiModelInput.value = 'google/gemini-2.0-flash-exp:free';
+        modelHelpText.textContent = 'Recommended free model: google/gemini-2.0-flash-exp:free';
+    }
+});
+
+// --- Core Functions ---
+
+async function handleGeneration() {
+    const apiKey = apiKeyInput.value.trim();
+    const provider = apiProviderSelect.value;
+    const model = apiModelInput.value.trim();
+
+    if (!apiKey) {
+        displayError('Please enter an API Key in the settings above.');
+        return;
+    }
+
+    if (fileInput.files.length === 0) {
+        displayError('Please select at least one file.');
+        return;
+    }
+    
+    setLoading(true);
+
+    try {
+        const files = Array.from(fileInput.files);
+        const processedFiles = await Promise.all(files.map((file, index) => processFile(file, index)));
+        
+        displayStatus(`Sending to ${provider === 'gemini' ? 'Google Gemini' : 'OpenRouter'}...`);
+        
+        const systemPrompt = `
+You are NoteForge AI, an expert in creating high-quality, structured study notes in Obsidian-ready Markdown. Your output MUST be ONLY pure Markdown. Do not include any explanations, wrappers, or introductory text like "Here are the notes:".
+
+IMPORTANT: Do NOT solve assignments, quizzes, or homework problems. If the input appears to be an assignment, extract the core concepts, theories, and formulas needed to understand the topic, and explain them as study notes. Do not provide direct answers to specific questions.
+
+Strictly follow these rules for the output format:
+1.  Start DIRECTLY with a '# Main Title' inferred from the content.
+2.  Use a proper heading hierarchy (e.g., '#', '##', '###').
+3.  Use bullet points (-) and nested lists for details.
+4.  Create tables for structured data where appropriate.
+5.  Use Obsidian-specific callouts: > [!important], > [!tip], > [!warning], > [!example].
+6.  Bold **key terms** on their first mention.
+7.  Format mathematical formulas using inline $...$ or in 
+\`\`\`math blocks.
+8.  At the very end, provide a list of 5-10 relevant #tags (e.g., #calculus #derivatives #lecture1).
+9.  After the tags, include a final section: '## Quick Summary' containing 5-8 key takeaways as bullet points.
+
+Analyze the following user-uploaded content (text and images) and generate a comprehensive set of notes based on all provided materials.
+            `;
+
+        let responseText = '';
+
+        if (provider === 'gemini') {
+            responseText = await callGemini(apiKey, model, systemPrompt, processedFiles);
+        } else if (provider === 'openrouter') {
+            responseText = await callOpenRouter(apiKey, model, systemPrompt, processedFiles);
+        }
+
+        markdownContent = responseText;
+        mdPreview.textContent = markdownContent;
+        resultsSection.hidden = false;
+        displayStatus('Notes generated successfully!', 'success');
+
+    } catch (error) {
+        console.error(error);
+        displayError(error.message || 'An error occurred during generation.');
+    } finally {
+        setLoading(false);
+    }
+}
+
+async function callGemini(apiKey, model, prompt, processedFiles) {
+    const requestBody = {
+        contents: [{
+            parts: [
+                { text: prompt },
+                ...processedFiles.flat() // .flat() handles PDFs that produce multiple pages
+            ]
+        }],
+        generationConfig: {
+            temperature: 0.4,
+        }
+    };
+    
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error.message || 'Gemini API request failed.');
+    }
+
+    const data = await response.json();
+    
+    if (data.candidates && data.candidates.length > 0) {
+        return data.candidates[0].content.parts[0].text;
+    } else {
+         throw new Error('No content returned from Gemini API.');
+    }
+}
+
+async function callOpenRouter(apiKey, model, prompt, processedFiles) {
+    // Convert processedFiles (Gemini format) to OpenRouter/OpenAI format
+    // Gemini: { inline_data: { mime_type: '...', data: '...' } } or { text: '...' }
+    // OpenAI: { type: 'image_url', image_url: { url: 'data:image/jpeg;base64,...' } } or { type: 'text', text: '...' }
+    
+    const contentParts = [{ type: 'text', text: prompt }];
+    
+    const flatFiles = processedFiles.flat();
+    for (const part of flatFiles) {
+        if (part.text) {
+            contentParts.push({ type: 'text', text: part.text });
+        } else if (part.inline_data) {
+            contentParts.push({
+                type: 'image_url',
+                image_url: {
+                    url: `data:${part.inline_data.mime_type};base64,${part.inline_data.data}`
+                }
+            });
+        }
+    }
+
+    const requestBody = {
+        model: model,
+        messages: [
+            {
+                role: 'user',
+                content: contentParts
+            }
+        ],
+        temperature: 0.4
+    };
+
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': window.location.href, // Optional
+            'X-Title': 'NoteForge AI' // Optional
+        },
+        body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || 'OpenRouter API request failed.');
+    }
+
+    const data = await response.json();
+    
+    if (data.choices && data.choices.length > 0) {
+        return data.choices[0].message.content;
+    } else {
+         throw new Error('No content returned from OpenRouter API.');
+    }
+}
+    // --- Helper Functions ---
+
+    async function checkAvailableModels() {
+        const apiKey = apiKeyInput.value.trim();
+        if (!apiKey) {
+            displayError('Please enter an API Key first.');
+            return;
+        }
+
+        const originalText = checkModelsBtn.textContent;
+        checkModelsBtn.textContent = 'Checking...';
+        checkModelsBtn.disabled = true;
+
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || 'Failed to list models');
+            }
+            
+            const data = await response.json();
+            const models = data.models
+                .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+                .map(m => m.name.replace('models/', ''))
+                .sort();
+            
+            if (models.length > 0) {
+                const modelList = models.join('\n');
+                alert(`Available Models:\n\n${modelList}\n\nPlease copy one of these into the Model field.`);
+                // Optionally auto-select the first one if current is invalid? 
+                // For now just showing the list is enough.
+            } else {
+                alert('No models found that support generateContent.');
+            }
+
+        } catch (error) {
+            displayError(`Error listing models: ${error.message}`);
+        } finally {
+            checkModelsBtn.textContent = originalText;
+            checkModelsBtn.disabled = false;
+        }
+    }
+
+    function processFile(file, index) {
+        return new Promise((resolve, reject) => {
+            const statusEl = document.getElementById(`status-${index}`);
+            if(statusEl) statusEl.textContent = 'Processing...';
+            
+            displayStatus(`Processing ${file.name}...`);
+            const reader = new FileReader();
+
+            // Robust type checking
+            const fileType = file.type || '';
+            const fileName = file.name.toLowerCase();
+            
+            const isPDF = fileType === 'application/pdf' || fileName.endsWith('.pdf');
+            const isImage = fileType.startsWith('image/') || /\.(jpg|jpeg|png|webp)$/.test(fileName);
+            const isText = fileType === 'text/plain' || fileName.endsWith('.txt') || fileName.endsWith('.md');
+
+            if (isPDF) {
+                if (typeof pdfjsLib === 'undefined') {
+                    if(statusEl) {
+                        statusEl.textContent = 'Error';
+                        statusEl.classList.add('error');
+                    }
+                    reject(new Error("PDF.js library not loaded. Please check your internet connection."));
+                    return;
+                }
+
+                reader.onload = async (e) => {
+                    try {
+                        const loadingTask = pdfjsLib.getDocument({ data: e.target.result });
+                        const pdf = await loadingTask.promise;
+                        const imageParts = [];
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            const page = await pdf.getPage(i);
+                            const viewport = page.getViewport({ scale: 1.5 });
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            await page.render({ canvasContext: context, viewport: viewport }).promise;
+                            
+                            const base64Image = canvas.toDataURL('image/jpeg').split(',')[1];
+                            imageParts.push({
+                                inline_data: {
+                                    mime_type: 'image/jpeg',
+                                    data: base64Image
+                                }
+                            });
+                        }
+                        if(statusEl) {
+                            statusEl.textContent = 'Ready to Send';
+                            statusEl.classList.add('done');
+                            statusEl.innerHTML = '✓ Ready';
+                        }
+                        resolve(imageParts);
+                    } catch (err) {
+                        if(statusEl) {
+                            statusEl.textContent = 'Error';
+                            statusEl.classList.add('error');
+                        }
+                        reject(new Error(`Failed to process PDF ${file.name}: ${err.message}`));
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else if (isImage) {
+                reader.onload = (e) => {
+                    const base64Image = e.target.result.split(',')[1];
+                    if(statusEl) {
+                        statusEl.textContent = 'Ready to Send';
+                        statusEl.classList.add('done');
+                        statusEl.innerHTML = '✓ Ready';
+                    }
+                    // Default to image/jpeg if type is missing, or use detected type
+                    const mimeType = fileType || 'image/jpeg';
+                    resolve({
+                        inline_data: {
+                            mime_type: mimeType,
+                            data: base64Image
+                        }
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else if (isText) {
+                reader.onload = (e) => {
+                    if(statusEl) {
+                        statusEl.textContent = 'Ready to Send';
+                        statusEl.classList.add('done');
+                        statusEl.innerHTML = '✓ Ready';
+                    }
+                    resolve({ text: e.target.result });
+                };
+                reader.readAsText(file);
+            } else {
+                if(statusEl) {
+                    statusEl.textContent = 'Error';
+                    statusEl.classList.add('error');
+                }
+                reject(new Error(`Unsupported file type: ${file.name} (${file.type})`));
+            }
+            
+            reader.onerror = () => {
+                if(statusEl) {
+                    statusEl.textContent = 'Error';
+                    statusEl.classList.add('error');
+                }
+                reject(new Error(`Failed to read file: ${file.name}`));
+            };
+        });
+    }
+
+    function downloadMarkdown() {
+        if (!markdownContent) return;
+        const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `noteforge-ai-notes-${new Date().toISOString().slice(0,10)}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+
+    
+    // --- UI & Status Functions ---
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="loader"></span>Generating...';
+        } else {
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = 'Generate Notes';
+        }
+    }
+
+    function displayStatus(message, type = 'info') {
+        statusDiv.textContent = message;
+        statusDiv.className = type; // 'success' or 'error' can be styled via CSS
+    }
+
+    function displayError(message) {
+        displayStatus(message, 'error');
+    }
+
+    function clearStatus() {
+        statusDiv.textContent = '';
+        statusDiv.className = '';
+    }
+
+    // --- Persistence Logic ---e
+    apiKeyInput.addEventListener('change', saveConfig);
+    apiModelInput.addEventListener('change', saveConfig);
+    apiProviderSelect.addEventListener('change', saveConfig);
+
+    // Load saved configuration
+    window.addEventListener('load', () => {
+        const savedApiKey = localStorage.getItem('noteForgeAPIKey');
+        const savedModel = localStorage.getItem('noteForgeModel');
+        const savedProvider = localStorage.getItem('noteForgeProvider');
+
+        if (savedApiKey) apiKeyInput.value = savedApiKey;
+        if (savedModel && savedModel !== 'gemini-1.5-flash') {
+            apiModelInput.value = savedModel;
+        } else {
+            // Reset to default if it was the incorrect version or missing
+            apiModelInput.value = 'gemini-flash-lite-latest'; 
+        }
+        if (savedProvider) {
+            apiProviderSelect.value = savedProvider;
+            // Trigger change event to update help text
+            apiProviderSelect.dispatchEvent(new Event('change'));
+        }
+    });
+    </script>
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+      kofiWidgetOverlay.draw('ander507', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#323842',
+        'floating-chat.donateButton.text-color': '#fff'
+      });
+    </script>
+</body>
+</html>
