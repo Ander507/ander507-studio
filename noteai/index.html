@@ -350,10 +350,10 @@
                         <div class="form-group">
                             <label for="api-model">Model:</label>
                             <div style="display: flex; gap: 10px;">
-                                <input type="text" id="api-model" value="gemini-1.5-flash">
+                                <input type="text" id="api-model" value="gemini-flash-lite-latest">
                                 <button id="check-models-btn" class="btn" style="width: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">Check Models</button>
                             </div>
-                            <p class="help-text" id="model-help">Default: gemini-1.5-flash</p>
+                            <p class="help-text" id="model-help">Default: gemini-flash-lite-latest</p>
                         </div>
                     </div>
                 </details>
@@ -396,7 +396,7 @@ const SHARED_CONFIG = {
     useSharedKey: false, // Set to true to enable shared mode
     provider: 'gemini',  // 'gemini', 'openrouter', or 'mistral'
     apiKey: '',          // Paste your API Key here
-    model: 'gemini-1.5-flash'
+    model: 'gemini-flash-lite-latest'
 };
 
 // ===================================================================================
@@ -472,8 +472,8 @@ checkModelsBtn.addEventListener('click', checkAvailableModels);
 apiProviderSelect.addEventListener('change', () => {
     // Only Gemini is supported now
     apiHelpText.innerHTML = 'Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>';
-    apiModelInput.value = 'gemini-1.5-flash';
-    modelHelpText.textContent = 'Default: gemini-1.5-flash';
+    apiModelInput.value = 'gemini-flash-lite-latest';
+    modelHelpText.textContent = 'Default: gemini-flash-lite-latest';
 });
 
 // --- Core Functions ---
@@ -532,8 +532,14 @@ Analyze the following user-uploaded content (text and images) and generate a com
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Server request failed.');
+                let errorMsg = 'Server request failed.';
+                try {
+                    const errorData = await response.json();
+                    errorMsg = errorData.error || errorMsg;
+                } catch (e) {
+                    errorMsg = `Server Error (${response.status}): ${response.statusText || 'Unknown Error'}`;
+                }
+                throw new Error(errorMsg);
             }
 
             const data = await response.json();
@@ -846,7 +852,7 @@ async function callGemini(apiKey, model, prompt, processedFiles) {
             apiModelInput.value = savedModel;
         } else {
             // Reset to default if it was the incorrect version or missing
-            apiModelInput.value = 'gemini-1.5-flash'; 
+            apiModelInput.value = 'gemini-flash-lite-latest'; 
         }
         if (savedProvider) {
             apiProviderSelect.value = savedProvider;
