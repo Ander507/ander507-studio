@@ -233,6 +233,29 @@
             text-align: right;
         }
 
+        /* Fullscreen Styles */
+        .results-section.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            z-index: 1000;
+            padding: 2rem;
+            margin: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .results-section.fullscreen #md-preview,
+        .results-section.fullscreen #html-preview {
+            flex: 1;
+            max-height: none;
+            height: auto;
+        }
+
         /* Toggle Switch Styles */
         .view-controls {
             display: flex;
@@ -491,6 +514,7 @@
                     <div class="view-controls">
                         <button id="view-raw-btn" class="toggle-btn active">Raw Markdown</button>
                         <button id="view-preview-btn" class="toggle-btn">Preview</button>
+                        <button id="fullscreen-btn" class="toggle-btn">Fullscreen</button>
                     </div>
                 </div>
                 
@@ -553,6 +577,7 @@ const mdPreview = document.getElementById('md-preview');
 const htmlPreview = document.getElementById('html-preview');
 const viewRawBtn = document.getElementById('view-raw-btn');
 const viewPreviewBtn = document.getElementById('view-preview-btn');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
 const downloadBtn = document.getElementById('download-btn');
 
 // API Config Elements
@@ -604,6 +629,7 @@ fileInput.addEventListener('change', () => {
 generateBtn.addEventListener('click', handleGeneration);
 downloadBtn.addEventListener('click', downloadMarkdown);
 checkModelsBtn.addEventListener('click', checkAvailableModels);
+fullscreenBtn.addEventListener('click', toggleFullscreen);
 
 viewRawBtn.addEventListener('click', () => {
     viewRawBtn.classList.add('active');
@@ -994,6 +1020,16 @@ async function callGemini(apiKey, model, prompt, processedFiles) {
     function clearStatus() {
         statusDiv.textContent = '';
         statusDiv.className = '';
+    }
+
+    function toggleFullscreen() {
+        resultsSection.classList.toggle('fullscreen');
+        const isFullscreen = resultsSection.classList.contains('fullscreen');
+        fullscreenBtn.textContent = isFullscreen ? 'Exit Fullscreen' : 'Fullscreen';
+        fullscreenBtn.classList.toggle('active', isFullscreen);
+        
+        // Prevent body scroll when fullscreen
+        document.body.style.overflow = isFullscreen ? 'hidden' : '';
     }
 
     // --- Persistence Logic ---e
