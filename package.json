@@ -1,0 +1,14 @@
+{
+  "name": "stellar-clicker-api",
+  "version": "1.0.0",
+  "description": "API for Stellar Clicker",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "mongodb": "^6.3.0"
+  }
+}

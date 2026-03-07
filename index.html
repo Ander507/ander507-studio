@@ -3,26 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0;url=/noteai">
-    <title>Redirecting...</title>
-    <script>
-        window.location.href = "/noteai";
-    </script>
+    <title>Ander507 Studio - Portfolio</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #0f0f0f;
-            color: #e0e0e0;
+        :root {
+            --bg-color: #050505;
+            --text-color: #f5f5f5;
+            --muted-color: #a0a0a0;
+            --card-bg: #111111;
+            --card-border: #222222;
+            --accent: #ededed;
+            --accent-hover: #ffffff;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --gradient-start: #333333;
+            --gradient-end: #000000;
         }
-        a { color: #3d8bfd; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, var(--bg-color) 70%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        header {
+            margin-bottom: 5rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--muted-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, transparent, transparent);
+            transition: background 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #444;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card.ztionix:hover::before { background: linear-gradient(to right, #00ff88, #0088ff); }
+        .card.zlib:hover::before { background: linear-gradient(to right, #ff0055, #ffaa00); }
+        .card.noteai:hover::before { background: linear-gradient(to right, #3d8bfd, #8e2de2); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--muted-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        .card-desc {
+            color: var(--muted-color);
+            flex-grow: 1;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #ccc;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            color: #555;
+            font-size: 0.9rem;
+            border-top: 1px solid #111;
+            padding-top: 2rem;
+        }
     </style>
 </head>
 <body>
-    <p>Redirecting to <a href="/noteai">/noteai</a>...</p>
+    <div class="container">
+        <header>
+            <h1>Ander507 Studio</h1>
+            <p class="subtitle">A digital portfolio showcasing modern web applications, Next.js projects, and experimental utilities.</p>
+        </header>
+
+        <main>
+            <div class="grid">
+                <!-- Ztionix -->
+                <a href="https://www.ztionix.tech/" class="card ztionix" target="_blank" rel="noopener noreferrer">
+                    <div class="card-header">
+                        <h2 class="card-title">Ztionix</h2>
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Online
+                        </div>
+                    </div>
+                    <p class="card-desc">A collection of experimental projects, secure communications, and digital utilities featuring the Sakovajo Protocol brainrot translator.</p>
+                    <div class="card-footer">
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Vercel</span>
+                    </div>
+                </a>
+
+                <!-- zlib.lol -->
+                <a href="https://www.zlib.lol/" class="card zlib" target="_blank" rel="noopener noreferrer">
+                    <div class="card-header">
+                        <h2 class="card-title">zlib.lol</h2>
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Online
+                        </div>
+                    </div>
+                    <p class="card-desc">The smart link generator. A highly secure platform to drag files, paste text, or shorten URLs instantly with burn-after-read capabilities.</p>
+                    <div class="card-footer">
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">Zero-knowledge</span>
+                    </div>
+                </a>
+
+                <!-- NoteForge AI -->
+                <a href="/noteai" class="card noteai">
+                    <div class="card-header">
+                        <h2 class="card-title">NoteForge AI</h2>
+                        <div class="status-indicator">
+                            <div class="status-dot" style="background-color: #3b82f6; box-shadow: 0 0 8px #3b82f6;"></div>
+                            Active
+                        </div>
+                    </div>
+                    <p class="card-desc">AI-Powered Study Notes generator. Upload lectures, PDFs, slides, or notes and get perfect Obsidian-ready Markdown in seconds.</p>
+                    <div class="card-footer">
+                        <span class="tech-tag">Vanilla JS</span>
+                        <span class="tech-tag">Gemini API</span>
+                    </div>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Ander507 Studio. All systems nominal.</p>
+        </footer>
+    </div>
 </body>
 </html>
