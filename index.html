@@ -33,7 +33,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, var(--bg-color) 70%);
+            background-image: radial-gradient(ellipse 80% 50% at 50% 0%, #1a0a12 0%, #0d0508 50%, var(--bg-color) 100%);
             min-height: 100vh;
         }
 
@@ -53,7 +53,7 @@
             margin-bottom: 1rem;
             letter-spacing: -0.04em;
             font-weight: 700;
-            background: linear-gradient(to right, #fff, #888);
+            background: linear-gradient(to right, #fff, #ec4899, #a21caf);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -93,9 +93,9 @@
         }
 
         .filter-btn.active {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border-color: var(--text-color);
+            background: linear-gradient(135deg, #c026d3, #a21caf);
+            color: #fff;
+            border-color: transparent;
         }
 
         .grid {
@@ -207,7 +207,8 @@
             text-align: center;
             color: #555;
             font-size: 0.9rem;
-            border-top: 1px solid #111;
+            border-top: 2px solid transparent;
+            border-image: linear-gradient(to right, transparent, #86198f, #ec4899, #86198f, transparent) 1;
             padding-top: 2.5rem;
             padding-bottom: 2.5rem;
         }
@@ -342,6 +343,12 @@
         <footer>
             <p>&copy; 2026 Ander507 Studio. All systems nominal.</p>
             <div class="social-links">
+                <!-- Ko-fi Icon -->
+                <a href="https://ko-fi.com/ander507" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Ko-fi">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"/>
+                    </svg>
+                </a>
                 <!-- Instagram Icon -->
                 <a href="https://www.instagram.com/ander507_/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                     <svg viewBox="0 0 24 24">
