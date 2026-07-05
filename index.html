@@ -3,7 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ander507 Studio - Portfolio</title>
+    <title>Ander507 Studio — Web Apps, Minecraft Mods & Projects</title>
+    <meta name="description" content="Portfolio of Ander507 Studio — web apps like NoteForge AI and zlib.lol, Minecraft mods including PacketSpy, and sites built for clients. Student developer building cool stuff.">
+    <meta name="author" content="Ander507">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ander507.studio/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ander507.studio/">
+    <meta property="og:title" content="Ander507 Studio — Web Apps, Minecraft Mods & Projects">
+    <meta property="og:description" content="Portfolio of Ander507 Studio — web apps, Minecraft mods, AI tools, and client sites. Built by a student developer in their free time.">
+    <meta property="og:site_name" content="Ander507 Studio">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Ander507 Studio — Web Apps, Minecraft Mods & Projects">
+    <meta name="twitter:description" content="Portfolio of Ander507 Studio — web apps, Minecraft mods, AI tools, and client sites.">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ander507",
+        "url": "https://ander507.studio",
+        "jobTitle": "Developer",
+        "description": "Student developer building web apps, Minecraft mods, and experimental utilities.",
+        "sameAs": [
+            "https://www.instagram.com/ander507_/",
+            "https://github.com/ander507",
+            "https://ko-fi.com/ander507",
+            "https://discord.gg/cY6Xfc6csX"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Ander507 Studio",
+        "url": "https://ander507.studio",
+        "description": "Personal portfolio showcasing web applications, Minecraft mods, and client projects."
+    }
+    </script>
+
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
@@ -150,6 +192,7 @@
         .card.noteai:hover::before { background: linear-gradient(to right, #3d8bfd, #8b5cf6); }
         .card.packetspy:hover::before { background: linear-gradient(to right, #22c55e, #16a34a); }
         .card.catzycraft:hover::before { background: linear-gradient(to right, #4ade80, #15803d); }
+        .card.realroleplay:hover::before { background: linear-gradient(to right, #dc2626, #f59e0b); }
 
         .card-header {
             display: flex;
@@ -243,6 +286,58 @@
             height: 24px;
             fill: currentColor;
         }
+        .footer-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--text-color);
+        }
+
+        .support-section {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+        }
+
+        .support-section h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .support-section p {
+            color: var(--muted-color);
+            font-size: 0.95rem;
+            max-width: 480px;
+            margin: 0 auto 1.25rem;
+        }
+
+        .kofi-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #c026d3, #a21caf);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .kofi-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
     </style>
 </head>
 <body>
@@ -257,6 +352,7 @@
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="web">Websites & Apps</button>
                 <button class="filter-btn" data-filter="minecraft">Minecraft</button>
+                <button class="filter-btn" data-filter="coded">Sites I Coded</button>
             </div>
 
             <div class="grid">
@@ -337,12 +433,40 @@
                         <span class="tech-tag">Tech</span>
                     </div>
                 </a>
+
+                <a href="https://realroleplay.dk/" class="card realroleplay" data-category="coded" target="_blank" rel="noopener noreferrer">
+                    <div class="card-header">
+                        <h2 class="card-title">Real Roleplay</h2>
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Online
+                        </div>
+                    </div>
+                    <p class="card-desc">Official website for Real Roleplay — a Danish FiveM roleplay server. Designed and coded from scratch for the community.</p>
+                    <div class="card-footer">
+                        <span class="tech-tag">FiveM</span>
+                        <span class="tech-tag">Client Site</span>
+                        <span class="tech-tag">HTML/CSS</span>
+                    </div>
+                </a>
             </div>
         </main>
 
+        <section class="support-section">
+            <h2>Support my work</h2>
+            <p>If you like my projects, use my mods, or just want to help keep the servers running — every coffee helps.</p>
+            <a href="https://ko-fi.com/ander507" class="kofi-btn" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a>
+        </section>
+
         <footer>
             <p>&copy; 2026 Ander507 Studio. All systems nominal.</p>
+            <p style="margin-top: 0.75rem;"><a href="/contact" class="footer-link">Contact</a></p>
             <div class="social-links">
+                <a href="https://github.com/ander507" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-1.005-.54-1.695-.945-1.695-1.875 0-1.035.885-1.875 1.965-1.875 1.14 0 1.755.885 2.085 1.35 1.125-1.875 3.075-1.35 3.825-.825.12-.645.465-1.125.855-1.38-2.475-.285-5.085-1.245-5.085-5.535 0-1.23.435-2.235 1.155-3.015-.12-.285-.51-1.425.105-2.97 0 0 .945-.3 3.075 1.155 1.005-.27 2.085-.405 3.165-.405s2.16.135 3.165.405c2.13-1.47 3.075-1.155 3.075-1.155.615 1.545.225 2.685.105 2.97.72.78 1.155 1.785 1.155 3.015 0 4.305-2.625 5.25-5.115 5.535.405.345.765 1.005.765 2.04 0 1.47-.015 2.655-.015 3.015 0 .315.225.69.84.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                </a>
                 <a href="https://ko-fi.com/ander507" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Ko-fi">
                     <svg viewBox="0 0 24 24">
                         <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"/>

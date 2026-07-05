@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Ander507 Studio</title>
+    <meta name="description" content="Get in touch with Ander507 Studio — collabs, feedback, bug reports, or just saying hi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ander507.studio/contact">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ander507.studio/contact">
+    <meta property="og:title" content="Contact — Ander507 Studio">
+    <meta property="og:description" content="Get in touch with Ander507 Studio — collabs, feedback, bug reports, or just saying hi.">
+    <meta property="og:site_name" content="Ander507 Studio">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Contact — Ander507 Studio">
+    <meta name="twitter:description" content="Get in touch with Ander507 Studio — collabs, feedback, bug reports, or just saying hi.">
+
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <style>
+        :root {
+            --text-color: #f5f5f5;
+            --muted-color: #a0a0a0;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent: #ec4899;
+            --accent-hover: #f472b6;
+            --success: #22c55e;
+            --error: #ef4444;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #000;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image:
+                linear-gradient(to right, rgba(236, 72, 153, 0.04) 0%, transparent 10%),
+                linear-gradient(to left, rgba(236, 72, 153, 0.04) 0%, transparent 10%),
+                radial-gradient(ellipse 80% 50% at 50% 0%, #1a0a12 0%, #0d0508 50%, #000 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--muted-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text-color);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            color: var(--muted-color);
+            font-size: 1.05rem;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: #ccc;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .hp-field {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #c026d3, #a21caf);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 0.85rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+
+        .status.visible {
+            display: block;
+        }
+
+        .status.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--success);
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--error);
+        }
+
+        .alt-contact {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--muted-color);
+            font-size: 0.9rem;
+        }
+
+        .alt-contact a {
+            color: var(--accent-hover);
+            text-decoration: none;
+        }
+
+        .alt-contact a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to portfolio</a>
+
+        <header>
+            <h1>Get in touch</h1>
+            <p class="subtitle">Collabs, bug reports, modpack feedback, or just saying hi — I'll get back to you when I can.</p>
+        </header>
+
+        <div class="form-card">
+            <form id="contact-form" novalidate>
+                <div class="form-group hp-field" aria-hidden="true">
+                    <label for="website">Website</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required maxlength="100" autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required maxlength="254" autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" maxlength="200" placeholder="e.g. CatzyCraft feedback">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required maxlength="5000" placeholder="What's on your mind?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">Send message</button>
+                <div id="status" class="status" role="status"></div>
+            </form>
+        </div>
+
+        <p class="alt-contact">
+            Prefer Discord? <a href="https://discord.gg/cY6Xfc6csX" target="_blank" rel="noopener noreferrer">Join my server</a>
+        </p>
+
+        <footer>
+            <p>&copy; 2026 Ander507 Studio</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const submitBtn = document.getElementById('submit-btn');
+            const status = document.getElementById('status');
+
+            const payload = {
+                name: form.name.value,
+                email: form.email.value,
+                subject: form.subject.value,
+                message: form.message.value,
+                website: form.website.value,
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            status.className = 'status';
+            status.textContent = '';
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error || 'Failed to send message');
+                }
+
+                status.textContent = 'Message sent! Thanks for reaching out.';
+                status.className = 'status visible success';
+                form.reset();
+            } catch (err) {
+                status.textContent = err.message;
+                status.className = 'status visible error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send message';
+            }
+        });
+    </script>
+</body>
+</html>
