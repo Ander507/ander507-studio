@@ -1,8 +1,8 @@
-# Ander507 Studio
+# Ander507.dev
 
-Welcome to **Ander507 Studio**! This is the source code for my personal digital portfolio, showcasing a collection of modern web applications, Next.js projects, Minecraft mods, and experimental utilities.
+Welcome to **Ander507.dev**! This is the source code for my personal digital portfolio, showcasing a collection of modern web applications, Next.js projects, Minecraft mods, and experimental utilities.
 
-You can visit the live site here: **[ander507.studio](https://ander507.studio)**
+You can visit the live site here: **[ander507.dev](https://ander507.dev)**
 
 ## 🚀 Featured Projects
 
@@ -32,4 +32,4 @@ If you like my projects, use my mods, or just want to support me as a developer,
 - **Discord**: [Ander507's Server](https://discord.gg/cY6Xfc6csX)
 
 ---
-*© 2026 Ander507 Studio. All systems nominal.*
+*© 2026 Ander507.dev. All systems nominal.*

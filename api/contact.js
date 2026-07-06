@@ -51,7 +51,7 @@ export default async function handler(req, res) {
                         { name: 'Message', value: message.trim().slice(0, 4000) },
                     ],
                     timestamp: new Date().toISOString(),
-                    footer: { text: 'ander507.studio contact form' },
+                    footer: { text: 'ander507.dev contact form' },
                 }],
             }),
         });
