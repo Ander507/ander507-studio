@@ -13,7 +13,14 @@ import {
 
 export const metadata: Metadata = {
   title: "@Ander507 — Links",
-  description: "Full-stack developer, HTX student, and creator. Find all my socials and projects.",
+  description: "Links and socials for Ander507 — developer building web apps and Minecraft mods.",
+  alternates: { canonical: "/bio" },
+  openGraph: {
+    title: "@Ander507 — Links",
+    description: "Links and socials for Ander507 — developer building web apps and Minecraft mods.",
+    url: "https://ander507.dev/bio",
+    type: "profile",
+  },
 };
 
 type LinkCategory = "socials" | "work";

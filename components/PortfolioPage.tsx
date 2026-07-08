@@ -170,6 +170,28 @@ export default function PortfolioPage() {
 
         <TechStack />
 
+        <section className="hire-section">
+          <h2>Hire me</h2>
+          <p>
+            Need a fast, clean website or a small web app shipped? I can help with landing pages, dashboards,
+            integrations, and custom tools.
+          </p>
+          <div className="hire-actions">
+            <a href="/contact" className="hire-primary">
+              Start a project →
+            </a>
+            <a
+              href="https://discord.gg/cY6Xfc6csX"
+              className="hire-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Message on Discord
+            </a>
+          </div>
+          <p className="hire-note">Typical reply: within 24–48h.</p>
+        </section>
+
         <section className="support-section">
           <h2>Support my work</h2>
           <p>
@@ -190,7 +212,7 @@ export default function PortfolioPage() {
           <p>&copy; 2026 Ander507.dev. All systems nominal.</p>
           <p style={{ marginTop: "0.75rem" }}>
             <a href="/contact" className="footer-link">
-              Contact
+              Hire me / Contact
             </a>
           </p>
           <div className="social-links">

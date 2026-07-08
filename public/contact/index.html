@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact — Ander507.dev</title>
-    <meta name="description" content="Get in touch with Ander507.dev — collabs, feedback, bug reports, or just saying hi.">
+    <title>Hire me — Ander507.dev</title>
+    <meta name="description" content="Hire Ander507.dev for websites, web apps, and custom tools. Send a short project brief and get a quick reply.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://ander507.dev/contact">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ander507.dev/contact">
-    <meta property="og:title" content="Contact — Ander507.dev">
-    <meta property="og:description" content="Get in touch with Ander507.dev — collabs, feedback, bug reports, or just saying hi.">
+    <meta property="og:title" content="Hire me — Ander507.dev">
+    <meta property="og:description" content="Hire Ander507.dev for websites, web apps, and custom tools. Send a short project brief and get a quick reply.">
     <meta property="og:site_name" content="Ander507.dev">
 
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Contact — Ander507.dev">
-    <meta name="twitter:description" content="Get in touch with Ander507.dev — collabs, feedback, bug reports, or just saying hi.">
+    <meta name="twitter:title" content="Hire me — Ander507.dev">
+    <meta name="twitter:description" content="Hire Ander507.dev for websites, web apps, and custom tools. Send a short project brief and get a quick reply.">
 
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -90,6 +90,53 @@
             font-size: 1.05rem;
         }
 
+        .quick-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .quick-card {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .quick-card strong {
+            display: block;
+            font-size: 0.9rem;
+            color: #fff;
+            margin-bottom: 0.15rem;
+        }
+
+        .quick-card span {
+            display: block;
+            color: var(--muted-color);
+            font-size: 0.9rem;
+        }
+
+        .quick-dot {
+            width: 10px;
+            height: 10px;
+            margin-top: 0.3rem;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(236, 72, 153, 0.35);
+            flex: 0 0 10px;
+        }
+
+        @media (min-width: 720px) {
+            .quick-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         .form-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -97,6 +144,32 @@
             border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 2rem;
+        }
+
+        .pill-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .pill {
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-color);
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .pill:hover {
+            transform: translateY(-1px);
+            border-color: rgba(236, 72, 153, 0.35);
+            background: rgba(236, 72, 153, 0.07);
         }
 
         .form-group {
@@ -157,6 +230,14 @@
             margin-top: 0.5rem;
         }
 
+        .fineprint {
+            margin-top: 0.9rem;
+            color: #777;
+            font-size: 0.85rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
         .submit-btn:hover:not(:disabled) {
             transform: translateY(-1px);
         }
@@ -213,6 +294,65 @@
             color: #555;
             font-size: 0.85rem;
         }
+
+        /* Mobile cleanup */
+        @media (max-width: 640px) {
+            .container {
+                padding: 3.25rem 1.1rem;
+            }
+
+            h1 {
+                font-size: 2.05rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .form-card {
+                padding: 1.25rem;
+            }
+
+            input, textarea {
+                padding: 0.7rem 0.9rem;
+                border-radius: 12px;
+            }
+
+            .submit-btn {
+                border-radius: 14px;
+                padding: 0.9rem 1rem;
+            }
+
+            .pill-row {
+                justify-content: flex-start;
+                gap: 0.45rem;
+                margin-top: 0.9rem;
+            }
+
+            .pill {
+                font-size: 0.82rem;
+                padding: 0.42rem 0.75rem;
+            }
+
+            .quick-cards {
+                margin-top: 1rem;
+                gap: 0.6rem;
+            }
+
+            .quick-card {
+                padding: 0.85rem 0.9rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            .form-card {
+                padding: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -220,8 +360,32 @@
         <a href="/" class="back-link">← Ander507.dev</a>
 
         <header>
-            <h1>Get in touch</h1>
-            <p class="subtitle">Collabs, bug reports, modpack feedback, or just saying hi — I'll get back to you when I can.</p>
+            <h1>Let’s work together</h1>
+            <p class="subtitle">I build fast, clean websites and small web apps. Send a short brief and I’ll reply with next steps.</p>
+
+            <div class="pill-row" aria-label="Quick subject picks">
+                <button type="button" class="pill" data-subject="Website / landing page">Website / landing page</button>
+                <button type="button" class="pill" data-subject="Web app / dashboard">Web app / dashboard</button>
+                <button type="button" class="pill" data-subject="Fix / improve existing site">Fix / improve existing site</button>
+                <button type="button" class="pill" data-subject="Other / question">Other / question</button>
+            </div>
+
+            <div class="quick-cards" aria-label="What to include">
+                <div class="quick-card">
+                    <div class="quick-dot" aria-hidden="true"></div>
+                    <div>
+                        <strong>What you need</strong>
+                        <span>Pages/features, links, and any examples you like.</span>
+                    </div>
+                </div>
+                <div class="quick-card">
+                    <div class="quick-dot" aria-hidden="true"></div>
+                    <div>
+                        <strong>Timeline + budget range</strong>
+                        <span>Even a rough range helps me propose the right scope.</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <div class="form-card">
@@ -243,21 +407,27 @@
 
                 <div class="form-group">
                     <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" maxlength="200" placeholder="e.g. CatzyCraft feedback">
+                    <input type="text" id="subject" name="subject" maxlength="200" placeholder="e.g. Website / landing page">
                 </div>
 
                 <div class="form-group">
                     <label for="message">Message *</label>
-                    <textarea id="message" name="message" required maxlength="5000" placeholder="What's on your mind?"></textarea>
+                    <textarea id="message" name="message" required maxlength="5000" placeholder="A few bullets is perfect:
+- What are you building?
+- Must-haves (features/pages)
+- Deadline (if any)
+- Budget range (optional)
+- Links (examples, docs, repo, current site)"></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn" id="submit-btn">Send message</button>
                 <div id="status" class="status" role="status"></div>
+                <p class="fineprint">No spam. Your message goes straight to me. Typical reply: within 24–48h.</p>
             </form>
         </div>
 
         <p class="alt-contact">
-            Prefer Discord? <a href="https://discord.gg/cY6Xfc6csX" target="_blank" rel="noopener noreferrer">Join my server</a>
+            Prefer Discord? <a href="https://discord.gg/cY6Xfc6csX" target="_blank" rel="noopener noreferrer">Message me there</a>
         </p>
 
         <footer>
@@ -266,6 +436,18 @@
     </div>
 
     <script>
+        // Quick subject buttons
+        document.querySelectorAll('[data-subject]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const subject = btn.getAttribute('data-subject');
+                const subjectInput = document.getElementById('subject');
+                if (subjectInput && subject) {
+                    subjectInput.value = subject;
+                    subjectInput.focus();
+                }
+            });
+        });
+
         document.getElementById('contact-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
