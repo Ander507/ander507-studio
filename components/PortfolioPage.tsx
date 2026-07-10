@@ -1,81 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import Script from "next/script";
+import { PROJECTS } from "@/lib/projects";
 import TechStack from "./TechStack";
 import "./portfolio.css";
 
 type Filter = "all" | "web" | "minecraft";
-
-interface Project {
-  title: string;
-  href: string;
-  category: "web" | "minecraft";
-  external?: boolean;
-  status: string;
-  statusColor?: string;
-  description: string;
-  tags: string[];
-  className: string;
-}
-
-const PROJECTS: Project[] = [
-  {
-    title: "Ztionix",
-    href: "https://www.ztionix.tech/",
-    category: "web",
-    external: true,
-    status: "Online",
-    description:
-      "A collection of experimental projects, secure communications, and digital utilities featuring the Sakovajo Protocol brainrot translator.",
-    tags: ["Next.js", "React", "Vercel"],
-    className: "ztionix",
-  },
-  {
-    title: "zlib.lol",
-    href: "https://www.zlib.lol/",
-    category: "web",
-    external: true,
-    status: "Online",
-    description:
-      "The smart link generator. A highly secure platform to drag files, paste text, or shorten URLs instantly with burn-after-read capabilities.",
-    tags: ["Next.js", "Zero-knowledge"],
-    className: "zlib",
-  },
-  {
-    title: "NoteForge AI",
-    href: "/noteai",
-    category: "web",
-    status: "Active",
-    statusColor: "#3b82f6",
-    description:
-      "AI-Powered Study Notes generator. Upload lectures, PDFs, slides, or notes and get perfect Obsidian-ready Markdown in seconds.",
-    tags: ["JavaScript", "Gemini API"],
-    className: "noteai",
-  },
-  {
-    title: "PacketSpy",
-    href: "https://modrinth.com/mod/packet-spy",
-    category: "minecraft",
-    external: true,
-    status: "Online",
-    description:
-      "A Minecraft mod made to debug and log packets sent and received by the client. It hosts a local website via Java WebSockets to inspect the data.",
-    tags: ["Minecraft Mod", "Java", "WebSockets"],
-    className: "packetspy",
-  },
-  {
-    title: "CatzyCraft",
-    href: "https://modrinth.com/modpack/catzycraft",
-    category: "minecraft",
-    external: true,
-    status: "Online",
-    description:
-      "The purr-fectly fun and techy Minecraft modpack! The ultimate mix of silly fun and cool tech stuff, perfect for you and your friends to play together.",
-    tags: ["Minecraft Modpack", "Multiplayer", "Tech"],
-    className: "catzycraft",
-  },
-];
 
 const FILTERS: { label: string; value: Filter }[] = [
   { label: "All", value: "all" },
@@ -131,13 +64,24 @@ export default function PortfolioPage() {
 
           <div className="grid">
             {visibleProjects.map((project) => (
-              <a
-                key={project.title}
-                href={project.href}
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}`}
                 className={`card ${project.className}`}
-                target={project.external ? "_blank" : undefined}
-                rel={project.external ? "noopener noreferrer" : undefined}
               >
+                {project.coverImage ? (
+                  <div className="card-cover">
+                    <Image
+                      src={project.coverImage}
+                      alt=""
+                      fill
+                      className="card-cover-image"
+                      sizes="(max-width: 640px) 100vw, 400px"
+                    />
+                  </div>
+                ) : (
+                  <div className={`card-cover card-cover-placeholder ${project.className}`} aria-hidden />
+                )}
                 <div className="card-header">
                   <h2 className="card-title">{project.title}</h2>
                   <div className="status-indicator">
@@ -163,7 +107,7 @@ export default function PortfolioPage() {
                     </span>
                   ))}
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </main>
@@ -258,6 +202,17 @@ export default function PortfolioPage() {
             >
               <svg viewBox="0 0 24 24">
                 <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+              </svg>
+            </a>
+            <a
+              href="https://ander507.itch.io/"
+              className="social-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="itch.io"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.137 2.41 2.466 2.41h.024c1.33 0 2.466-1.102 2.466-2.41 0 1.308 1.034 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.282 24 5.98V4.95c-.02-.62-2.082-2.99-3.13-3.612-3.253-.114-5.508-.134-8.87-.133-3.362 0-7.945.053-8.87.133zm6.376 6.477a2.74 2.74 0 0 1-.468.602c-.5.49-1.19.795-1.947.795a2.786 2.786 0 0 1-1.95-.795c-.182-.178-.32-.37-.446-.59-.127.222-.303.412-.486.59a2.788 2.788 0 0 1-1.95.795c-.092 0-.187-.025-.264-.052-.107 1.113-.152 2.176-.168 2.95v.005l-.006 1.167c.02 2.334-.23 7.564 1.03 8.85 1.952.454 5.545.662 9.15.663 3.605 0 7.198-.21 9.15-.664 1.26-1.284 1.01-6.514 1.03-8.848l-.006-1.167v-.004c-.016-.775-.06-1.838-.168-2.95-.077.026-.172.052-.263.052a2.788 2.788 0 0 1-1.95-.795c-.184-.178-.36-.368-.486-.59-.127.22-.265.412-.447.59a2.786 2.786 0 0 1-1.95.794c-.76 0-1.446-.303-1.948-.793a2.74 2.74 0 0 1-.468-.602 2.738 2.738 0 0 1-.463.602 2.787 2.787 0 0 1-1.95.794h-.16a2.787 2.787 0 0 1-1.95-.793 2.738 2.738 0 0 1-.464-.602zm-2.004 2.59v.002c.795.002 1.5 0 2.373.953.687-.072 1.406-.108 2.125-.107.72 0 1.438.035 2.125.107.873-.953 1.578-.95 2.372-.953.376 0 1.876 0 2.92 2.934l1.123 4.028c.832 2.995-.266 3.068-1.636 3.07-2.03-.075-3.156-1.55-3.156-3.025-1.124.184-2.436.276-3.748.277-1.312 0-2.624-.093-3.748-.277 0 1.475-1.125 2.95-3.156 3.026-1.37-.004-2.468-.077-1.636-3.072l1.122-4.027c1.045-2.934 2.545-2.934 2.92-2.934zM12 12.714c-.002.002-2.14 1.964-2.523 2.662l1.4-.056v1.22c0 .056.56.033 1.123.007.562.026 1.124.05 1.124-.008v-1.22l1.4.055C14.138 14.677 12 12.713 12 12.713z" />
               </svg>
             </a>
           </div>

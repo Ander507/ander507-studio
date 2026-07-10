@@ -40,6 +40,7 @@ const jsonLd = {
         "https://github.com/ander507",
         "https://ko-fi.com/ander507",
         "https://discord.gg/cY6Xfc6csX",
+        "https://ander507.itch.io/",
       ],
     },
     {

@@ -4,6 +4,7 @@ import {
   Github,
   Globe,
   Instagram,
+  Joystick,
   Link,
   MessageSquare,
   Twitch,
@@ -84,6 +85,12 @@ const BIO_LINKS: BioLink[] = [
     title: "CatzyCraft",
     url: "https://modrinth.com/modpack/catzycraft",
     icon: Gamepad2,
+    category: "work",
+  },
+  {
+    title: "itch.io",
+    url: "https://ander507.itch.io/",
+    icon: Joystick,
     category: "work",
   },
 ];
