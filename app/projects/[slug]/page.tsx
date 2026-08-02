@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProjectDetailPage from "@/components/ProjectDetailPage";
-import { getAllProjectSlugs, getProject } from "@/lib/projects";
+import { getAllProjectSlugs, getProject, CATEGORY_LABELS } from "@/lib/projects";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -49,8 +49,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     name: project.title,
     description: project.longDescription,
     url: `https://ander507.dev/projects/${project.slug}`,
-    applicationCategory: project.category === "web" ? "WebApplication" : "GameApplication",
-    operatingSystem: project.category === "web" ? "Web" : "Minecraft",
+    applicationCategory: CATEGORY_LABELS[project.category].schemaCategory,
+    operatingSystem: CATEGORY_LABELS[project.category].schemaOS,
     ...(project.coverImage ? { image: `https://ander507.dev${project.coverImage}` } : {}),
     author: {
       "@type": "Person",

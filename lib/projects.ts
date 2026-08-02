@@ -1,4 +1,28 @@
-export type ProjectCategory = "web" | "minecraft";
+export type ProjectCategory = "web" | "minecraft" | "stardance";
+
+export const CATEGORY_LABELS: Record<
+  ProjectCategory,
+  { short: string; long: string; schemaCategory: string; schemaOS: string }
+> = {
+  web: {
+    short: "Web App",
+    long: "Website & App",
+    schemaCategory: "WebApplication",
+    schemaOS: "Web",
+  },
+  minecraft: {
+    short: "Minecraft",
+    long: "Minecraft",
+    schemaCategory: "GameApplication",
+    schemaOS: "Minecraft",
+  },
+  stardance: {
+    short: "Stardance HackClub",
+    long: "Stardance HackClub",
+    schemaCategory: "WebApplication",
+    schemaOS: "Web",
+  },
+};
 
 export interface ProjectScreenshot {
   src: string;
@@ -168,6 +192,97 @@ export const PROJECTS: Project[] = [
         href: "https://modrinth.com/modpack/catzycraft",
         external: true,
       },
+    ],
+  },
+  {
+    slug: "aurawatch",
+    title: "AuraWatch",
+    href: "https://aura-watching.vercel.app/",
+    category: "stardance",
+    external: true,
+    status: "Online",
+    description:
+      "A vibe finder for movies, TV, anime, and songs — tell it what you’re in the mood for, get titles that actually fit.",
+    longDescription:
+      "AuraWatch is a recommendation concierge built for Stardance / Hack Club. Pick a format, multi-select genres, describe a vibe, or search “similar to…” titles — then get a handful of picks with posters and where-to-watch providers. Dual UI themes (dark minimal or light desktop board), region-aware streaming logos via TMDB, and song listen links via iTunes. Falls back to a curated local catalog when APIs flake.",
+    tags: ["SvelteKit", "Gemini", "TMDB"],
+    className: "aurawatch",
+    coverImage: "/projects/aurawatch/cover.png",
+    screenshots: [
+      { src: "/projects/aurawatch/screenshot-1.png", alt: "AuraWatch minimal theme" },
+      { src: "/projects/aurawatch/screenshot-2.png", alt: "AuraWatch song recommendations" },
+    ],
+    features: [
+      "Movies, series, anime, songs, or all-formats mode",
+      "Vibe prompt and similar-title search with live lookup",
+      "Region-aware streaming provider logos",
+      "Dual themes remembered in localStorage",
+      "Gemini + TMDB pipeline with local catalog fallback",
+    ],
+    year: "2026",
+    links: [
+      { label: "Open live demo", href: "https://aura-watching.vercel.app/", external: true },
+      { label: "GitHub", href: "https://github.com/Ander507/AuraWatch", external: true },
+    ],
+  },
+  {
+    slug: "ztionix-os",
+    title: "ZtionixOS",
+    href: "https://ztionix-os.vercel.app/",
+    category: "stardance",
+    external: true,
+    status: "Online",
+    description:
+      "A fake desktop in the browser — boot screen, draggable windows, a real filesystem, and a bunch of small apps.",
+    longDescription:
+      "ZtionixOS is a browser OS built for Stardance / Hack Club: boot into a login screen, then a full desktop with a top bar, dock, and window manager. Apps return plain DOM nodes — no React. There’s a real virtual filesystem in IndexedDB under /home/user, drag-to-import files, dock pin customization, and apps for Files, Terminal, Editor, Browser, Paint, music/video, Writer/Calc/Impress, Snake, Doom, Photo Booth, and more.",
+    tags: ["Vite", "TypeScript", "IndexedDB"],
+    className: "ztionix-os",
+    coverImage: "/projects/ztionix-os/cover.png",
+    screenshots: [
+      { src: "/projects/ztionix-os/cover.png", alt: "ZtionixOS desktop with open apps" },
+    ],
+    features: [
+      "Draggable/resizable windows with snap and GPU transforms",
+      "Persistent VFS in IndexedDB",
+      "Dock pins, themes, and wallpaper in Settings",
+      "Office-style Writer, Calc, and Impress apps",
+      "Doom, Snake, Photo Booth, and other easter eggs",
+    ],
+    year: "2026",
+    links: [
+      { label: "Open live demo", href: "https://ztionix-os.vercel.app/", external: true },
+      { label: "GitHub", href: "https://github.com/Ander507/ZtionixOS", external: true },
+    ],
+  },
+  {
+    slug: "omnitab",
+    title: "OmniTab",
+    href: "https://omni-tab.vercel.app/",
+    category: "stardance",
+    external: true,
+    status: "Online",
+    description:
+      "Your new tab, but useful — one bar for search, links, and Gemini.",
+    longDescription:
+      "OmniTab replaces the empty new-tab page with an Omni-Bar that searches, opens URLs, or talks to Gemini via slash commands. Speed dial with drag-reorder and bookmark import, a scratchpad for messy code/errors, and optional widgets for clock, weather, focus, BBC news, and quote of the day. No login — everything sticks in localStorage. Shared Gemini keys stay on the server behind /api/gemini with free-tier rotation.",
+    tags: ["Vite", "React", "Gemini"],
+    className: "omnitab",
+    coverImage: "/projects/omnitab/cover.png",
+    screenshots: [
+      { src: "/projects/omnitab/screenshot-1.png", alt: "OmniTab first-run setup wizard" },
+    ],
+    features: [
+      "Omni-Bar: search, URLs, and Gemini slash commands",
+      "Engine picker plus one-shot @engine shortcuts",
+      "Draggable speed dial with Ctrl+1–9",
+      "Scratchpad and optional ambient widgets",
+      "Server-side Gemini key rotation for shared-key mode",
+    ],
+    year: "2026",
+    links: [
+      { label: "Open live demo", href: "https://omni-tab.vercel.app/", external: true },
+      { label: "GitHub", href: "https://github.com/Ander507/OmniTab", external: true },
     ],
   },
 ];

@@ -8,12 +8,13 @@ import { PROJECTS } from "@/lib/projects";
 import TechStack from "./TechStack";
 import "./portfolio.css";
 
-type Filter = "all" | "web" | "minecraft";
+type Filter = "all" | "web" | "minecraft" | "stardance";
 
 const FILTERS: { label: string; value: Filter }[] = [
   { label: "All", value: "all" },
   { label: "Websites & Apps", value: "web" },
   { label: "Minecraft", value: "minecraft" },
+  { label: "Stardance HackClub", value: "stardance" },
 ];
 
 export default function PortfolioPage() {

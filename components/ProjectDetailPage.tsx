@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/lib/projects";
+import { CATEGORY_LABELS } from "@/lib/projects";
 import "./project-detail.css";
 
 interface ProjectDetailPageProps {
@@ -82,7 +83,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
           <div className="project-header-main">
             <div className="project-meta-row">
               <span className="project-category">
-                {project.category === "web" ? "Web App" : "Minecraft"}
+                {CATEGORY_LABELS[project.category].short}
               </span>
               <span className="project-status">
                 <span
@@ -129,7 +130,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             <dl className="project-quick-details">
               <div>
                 <dt>Category</dt>
-                <dd>{project.category === "web" ? "Website & App" : "Minecraft"}</dd>
+                <dd>{CATEGORY_LABELS[project.category].long}</dd>
               </div>
               <div>
                 <dt>Status</dt>

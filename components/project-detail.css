@@ -45,6 +45,24 @@
   --accent-glow: rgba(134, 239, 172, 0.3);
 }
 
+.project-detail-page.aurawatch {
+  --accent: #fb923c;
+  --accent-soft: rgba(251, 146, 60, 0.12);
+  --accent-glow: rgba(251, 146, 60, 0.3);
+}
+
+.project-detail-page.ztionix-os {
+  --accent: #f59e0b;
+  --accent-soft: rgba(245, 158, 11, 0.12);
+  --accent-glow: rgba(245, 158, 11, 0.3);
+}
+
+.project-detail-page.omnitab {
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.12);
+  --accent-glow: rgba(56, 189, 248, 0.3);
+}
+
 .project-ambient {
   position: fixed;
   inset: 0;
