@@ -24,6 +24,7 @@ const TECH_STACK: TechItem[] = [
   { name: "React", icon: Atom },
   { name: "Svelte", icon: Sparkles },
   { name: "Tailwind CSS", icon: Wind },
+  { name: ".NET / WPF", icon: AppWindow },
   { name: "Rust", icon: Cpu },
   { name: "Java", icon: Code2 },
   { name: "Tauri", icon: AppWindow },

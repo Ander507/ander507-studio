@@ -1,4 +1,4 @@
-export type ProjectCategory = "web" | "minecraft" | "stardance";
+export type ProjectCategory = "web" | "minecraft" | "stardance" | "desktop";
 
 export const CATEGORY_LABELS: Record<
   ProjectCategory,
@@ -21,6 +21,12 @@ export const CATEGORY_LABELS: Record<
     long: "Stardance HackClub",
     schemaCategory: "WebApplication",
     schemaOS: "Web",
+  },
+  desktop: {
+    short: "Desktop",
+    long: "Desktop Engineering & Developer Tools",
+    schemaCategory: "DesktopApplication",
+    schemaOS: "Windows",
   },
 };
 
@@ -55,6 +61,61 @@ export interface Project {
 }
 
 export const PROJECTS: Project[] = [
+  {
+    slug: "portsentinel",
+    title: "PortSentinel",
+    href: "https://github.com/Ander507/PortSentinel",
+    category: "desktop",
+    external: true,
+    status: "Online",
+    description:
+      "Real-time Windows TCP listener & process sentinel — baseline diffs, signature shields, and tray alerts when something new starts listening.",
+    longDescription:
+      "PortSentinel is a lightweight Windows system tray utility for developers and sysadmins who need immediate visibility into local TCP listeners (0.0.0.0, 127.0.0.1, IPv6). It diffs current listening ports against a saved baseline, alerts when a background service, Docker container, or untrusted binary opens an unexpected port, and surfaces process command lines, paths, and digital signature status — all without admin elevation. Optional LAN ARP discovery, pause/resume monitoring, and one-click kill with a protected-process blocklist round out the workflow.",
+    tags: [".NET 8", "WPF", "C# 12"],
+    className: "portsentinel",
+    coverImage: "/projects/portsentinel/cover.png",
+    screenshots: [
+      {
+        src: "/projects/portsentinel/screenshot-1.png",
+        alt: "PortSentinel listening TCP ports grid with baseline statuses",
+      },
+      {
+        src: "/projects/portsentinel/screenshot-2.png",
+        alt: "Digitally signed process shield tooltip",
+      },
+      {
+        src: "/projects/portsentinel/screenshot-3.png",
+        alt: "Unsigned or unknown signature shield tooltip",
+      },
+    ],
+    features: [
+      "Baseline diffing with Unchanged / New / Closed port states",
+      "Async process inspection — command line, path, WMI + iphlpapi caching",
+      "Digital signature shields via WinVerifyTrust / X509 checks",
+      "Tray monitoring with batched toast alerts and pause/resume",
+      "Row actions: open file location, copy localhost, kill process",
+      "Glassmorphic Fluent UI with Acrylic on Windows 11",
+    ],
+    year: "2026",
+    links: [
+      {
+        label: "Download Windows release",
+        href: "https://github.com/Ander507/PortSentinel/releases",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Ander507/PortSentinel",
+        external: true,
+      },
+      {
+        label: "Support on Ko-fi",
+        href: "https://ko-fi.com/ander507",
+        external: true,
+      },
+    ],
+  },
   {
     slug: "ztionix",
     title: "Ztionix",

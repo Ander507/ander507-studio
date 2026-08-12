@@ -182,6 +182,7 @@
 .portfolio-page .card.aurawatch:hover::before { background: linear-gradient(to right, #f97316, #fb923c); }
 .portfolio-page .card.ztionix-os:hover::before { background: linear-gradient(to right, #f59e0b, #ea580c); }
 .portfolio-page .card.omnitab:hover::before { background: linear-gradient(to right, #38bdf8, #818cf8); }
+.portfolio-page .card.portsentinel:hover::before { background: linear-gradient(to right, #14b8a6, #512BD4); }
 
 .portfolio-page .card-header {
   display: flex;
