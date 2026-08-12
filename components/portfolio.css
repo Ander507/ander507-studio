@@ -178,6 +178,7 @@
 .portfolio-page .card.noteai:hover::before { background: linear-gradient(to right, #3d8bfd, #8b5cf6); }
 .portfolio-page .card.packetspy:hover::before { background: linear-gradient(to right, #22c55e, #16a34a); }
 .portfolio-page .card.catzycraft:hover::before { background: linear-gradient(to right, #4ade80, #15803d); }
+.portfolio-page .card.snipclip:hover::before { background: linear-gradient(to right, #06b6d4, #22d3ee); }
 .portfolio-page .card.aurawatch:hover::before { background: linear-gradient(to right, #f97316, #fb923c); }
 .portfolio-page .card.ztionix-os:hover::before { background: linear-gradient(to right, #f59e0b, #ea580c); }
 .portfolio-page .card.omnitab:hover::before { background: linear-gradient(to right, #38bdf8, #818cf8); }

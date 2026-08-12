@@ -195,6 +195,43 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    slug: "snipclip",
+    title: "SnipClip",
+    href: "https://github.com/Ander507/SnipClip/releases/latest",
+    category: "stardance",
+    external: true,
+    status: "Online",
+    description:
+      "Lightning-fast clipboard vault + screen snipper — SQLite history, region capture, and canvas annotation in a native Windows tray app.",
+    longDescription:
+      "SnipClip is a native desktop utility built for Stardance / Hack Club with Tauri, Rust, and React. It pairs a local SQLite-backed clipboard history vault with a custom screen-snipping tool: translucent region overlay, pen/arrow/highlight/callout tools, true HTML5 canvas pixel blur (no CSS backdrop-filter glitches), mouse-wheel zoom, and middle-click pan. Close hides to the tray; Ctrl+Shift+V toggles the vault and Ctrl+Shift+S starts a snip. Optional launch-at-startup and auto-clear for unpinned history.",
+    tags: ["Tauri", "Rust", "React"],
+    className: "snipclip",
+    coverImage: "/projects/snipclip/cover.png",
+    screenshots: [
+      { src: "/projects/snipclip/screenshot-1.png", alt: "Clipboard vault — Images filter" },
+      { src: "/projects/snipclip/screenshot-2.png", alt: "Region snip selection overlay" },
+      { src: "/projects/snipclip/screenshot-3.png", alt: "Settings — startup, hotkeys, vault cleanup" },
+      { src: "/projects/snipclip/icon.png", alt: "SnipClip app icon" },
+    ],
+    features: [
+      "Clipboard vault for text, links, and images in SQLite",
+      "Region snip with annotation, pixel blur, zoom, and pan",
+      "Re-edit screenshots from the vault lightbox",
+      "Global hotkeys and system-tray background mode",
+      "Auto-clear unpinned history on reboot or schedule",
+    ],
+    year: "2026",
+    links: [
+      {
+        label: "Download Windows release",
+        href: "https://github.com/Ander507/SnipClip/releases/latest",
+        external: true,
+      },
+      { label: "GitHub", href: "https://github.com/Ander507/SnipClip", external: true },
+    ],
+  },
+  {
     slug: "aurawatch",
     title: "AuraWatch",
     href: "https://aura-watching.vercel.app/",

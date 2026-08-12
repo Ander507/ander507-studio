@@ -45,6 +45,12 @@
   --accent-glow: rgba(134, 239, 172, 0.3);
 }
 
+.project-detail-page.snipclip {
+  --accent: #22d3ee;
+  --accent-soft: rgba(34, 211, 238, 0.12);
+  --accent-glow: rgba(34, 211, 238, 0.3);
+}
+
 .project-detail-page.aurawatch {
   --accent: #fb923c;
   --accent-soft: rgba(251, 146, 60, 0.12);
