@@ -295,7 +295,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "aurawatch",
     title: "AuraWatch",
-    href: "https://aura-watching.vercel.app/",
+    href: "https://www.aurawatch.org/",
     category: "stardance",
     external: true,
     status: "Online",
@@ -319,7 +319,7 @@ export const PROJECTS: Project[] = [
     ],
     year: "2026",
     links: [
-      { label: "Open live demo", href: "https://aura-watching.vercel.app/", external: true },
+      { label: "Open live demo", href: "https://www.aurawatch.org/", external: true },
       { label: "GitHub", href: "https://github.com/Ander507/AuraWatch", external: true },
     ],
   },
