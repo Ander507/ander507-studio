@@ -1,101 +1,18 @@
 @import "tailwindcss";
 
-:root {
-  --paper: #ffffff;
-  --mist: #eef1f5;
-  --line: #d9dee6;
-  --ink: #14213d;
-  --muted: #56607a;
-  --signal: #d62839;
-  /* Solid navy blocks (contact, calls to action) stay navy in both themes. */
-  --panel: #14213d;
-  --on-panel: #ffffff;
-  --shadow: rgba(20, 33, 61, 0.35);
-  color-scheme: light;
-}
-
-/* Dark theme: follows the system unless the visitor picked a theme with the toggle. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0d1424;
-    --mist: #141d32;
-    --line: #26324d;
-    --ink: #e8ecf4;
-    --muted: #9aa5bd;
-    --signal: #ff5a68;
-    --panel: #1a2744;
-    --on-panel: #ffffff;
-    --shadow: rgba(0, 0, 0, 0.6);
-    color-scheme: dark;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
-:root[data-theme="dark"] {
-  --paper: #0d1424;
-  --mist: #141d32;
-  --line: #26324d;
-  --ink: #e8ecf4;
-  --muted: #9aa5bd;
-  --signal: #ff5a68;
-  --panel: #1a2744;
-  --on-panel: #ffffff;
-  --shadow: rgba(0, 0, 0, 0.6);
-  color-scheme: dark;
+@theme {
+  --animate-marquee: marquee 45s linear infinite;
 }
 
-@theme inline {
-  --color-paper: var(--paper);
-  --color-mist: var(--mist);
-  --color-line: var(--line);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-signal: var(--signal);
-  --color-panel: var(--panel);
-  --color-on-panel: var(--on-panel);
-  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-}
-
-body {
-  background: var(--paper);
-  color: var(--ink);
-}
-
-::selection {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-:focus-visible {
-  outline: 2px solid var(--signal);
-  outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Theme toggle shows a moon in light mode and a sun in dark mode, with no JS needed to pick the icon. */
-.theme-icon-sun {
-  display: none;
-}
-:root[data-theme="dark"] .theme-icon-sun {
-  display: block;
-}
-:root[data-theme="dark"] .theme-icon-moon {
-  display: none;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-icon-sun {
-    display: block;
-  }
-  :root:not([data-theme="light"]) .theme-icon-moon {
-    display: none;
-  }
+.animate-marquee {
+  animation: marquee 45s linear infinite;
 }

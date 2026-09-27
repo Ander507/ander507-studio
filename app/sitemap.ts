@@ -1,40 +1,45 @@
 import type { MetadataRoute } from "next";
-import { LOCALES } from "@/lib/i18n";
 import { PROJECTS } from "@/lib/projects";
-import { SITE } from "@/lib/site";
 
-const PAGES: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "yearly" }[] = [
-  { path: "", priority: 1, changeFrequency: "weekly" },
-  { path: "/contact", priority: 0.9, changeFrequency: "yearly" },
-  { path: "/projects", priority: 0.8, changeFrequency: "monthly" },
-  { path: "/bio", priority: 0.5, changeFrequency: "monthly" },
-  { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
-  { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
-  ...PROJECTS.map((project) => ({
-    path: `/projects/${project.slug}`,
-    priority: 0.7,
-    changeFrequency: "monthly" as const,
-  })),
-];
+const SITE_URL = "https://ander507.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const localized = PAGES.flatMap((page) =>
-    LOCALES.map((lang) => ({
-      url: `${SITE.url}/${lang}${page.path}`,
-      lastModified: now,
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-      alternates: {
-        languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE.url}/${l}${page.path}`])),
-      },
-    })),
-  );
+  const projectEntries = PROJECTS.map((project) => ({
+    url: `${SITE_URL}/projects/${project.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
   return [
-    ...localized,
-    // Static page served via `public/` + a rewrite in `next.config.ts`.
-    { url: `${SITE.url}/noteai`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    {
+      url: `${SITE_URL}/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: `${SITE_URL}/bio`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    ...projectEntries,
+    // These two are static pages served via `public/` + rewrites in `next.config.ts`.
+    {
+      url: `${SITE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/noteai`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
   ];
 }
+
