@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/lib/projects";
-import { CATEGORY_LABELS } from "@/lib/projects";
+import { CATEGORY_LABELS, PROJECTS } from "@/lib/projects";
+import { MotionConfig } from "motion/react";
+import TextRoll from "./TextRoll";
 import "./project-detail.css";
 
 interface ProjectDetailPageProps {
@@ -13,23 +15,20 @@ interface ProjectDetailPageProps {
 
 export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [activeScreenshot, setActiveScreenshot] = useState(0);
+  const shots = project.screenshots;
+
+  const index = PROJECTS.findIndex((item) => item.slug === project.slug);
+  const next = PROJECTS[(index + 1) % PROJECTS.length];
 
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
-
-  const showPrev = useCallback(() => {
-    setLightboxIndex((current) => {
-      if (current === null) return null;
-      return current === 0 ? project.screenshots.length - 1 : current - 1;
-    });
-  }, [project.screenshots.length]);
-
-  const showNext = useCallback(() => {
-    setLightboxIndex((current) => {
-      if (current === null) return null;
-      return current === project.screenshots.length - 1 ? 0 : current + 1;
-    });
-  }, [project.screenshots.length]);
+  const showPrev = useCallback(
+    () => setLightboxIndex((current) => (current === null ? null : (current - 1 + shots.length) % shots.length)),
+    [shots.length],
+  );
+  const showNext = useCallback(
+    () => setLightboxIndex((current) => (current === null ? null : (current + 1) % shots.length)),
+    [shots.length],
+  );
 
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -42,234 +41,147 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
-
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [lightboxIndex, closeLightbox, showPrev, showNext]);
 
-  const primaryLink = project.links[0];
-
   return (
-    <div className={`project-detail-page ${project.className}`}>
-      <div className="project-ambient" aria-hidden />
+    <MotionConfig reducedMotion="user">
+      <div className="detail">
+        <div className="detail-wrap">
+          <div className="detail-info">
+            <Link href="/" className="detail-back">
+              <TextRoll>← Ander507</TextRoll>
+            </Link>
 
-      <div className="project-detail-container">
-        <Link href="/" className="project-back-link">
-          <span className="project-back-icon" aria-hidden>
-            ←
-          </span>
-          Back to portfolio
-        </Link>
+            <header className="detail-header">
+              <h1>{project.title}</h1>
+              <p className="detail-desc">{project.description}</p>
+              <ul className="detail-links">
+                {project.links.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                    >
+                      <TextRoll>{link.label}</TextRoll>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </header>
 
-        <div className="project-banner">
-          {project.coverImage ? (
-            <Image
-              src={project.coverImage}
-              alt=""
-              fill
-              priority
-              className="project-banner-image"
-              sizes="(max-width: 1100px) 100vw, 1100px"
-            />
-          ) : (
-            <div className="project-banner-placeholder" />
-          )}
-          <div className="project-banner-vignette" />
-        </div>
-
-        <header className="project-header-card">
-          <div className="project-header-main">
-            <div className="project-meta-row">
-              <span className="project-category">
-                {CATEGORY_LABELS[project.category].short}
-              </span>
-              <span className="project-status">
-                <span
-                  className="project-status-dot"
-                  style={
-                    project.statusColor
-                      ? {
-                          backgroundColor: project.statusColor,
-                          boxShadow: `0 0 10px ${project.statusColor}`,
-                        }
-                      : undefined
-                  }
-                />
-                {project.status}
-              </span>
-              <span className="project-year">{project.year}</span>
-            </div>
-
-            <h1>{project.title}</h1>
-            <p className="project-tagline">{project.description}</p>
-
-            <div className="project-tag-row">
-              {project.tags.map((tag) => (
-                <span key={tag} className="project-tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <aside className="project-header-side">
-            {primaryLink && (
-              <a
-                href={primaryLink.href}
-                className="project-cta-primary"
-                target={primaryLink.external ? "_blank" : undefined}
-                rel={primaryLink.external ? "noopener noreferrer" : undefined}
-              >
-                {primaryLink.label}
-                <span aria-hidden>→</span>
-              </a>
-            )}
-
-            <dl className="project-quick-details">
+            <dl className="detail-meta">
               <div>
-                <dt>Category</dt>
+                <dt>Type</dt>
                 <dd>{CATEGORY_LABELS[project.category].long}</dd>
+              </div>
+              <div>
+                <dt>Year</dt>
+                <dd>{project.year}</dd>
               </div>
               <div>
                 <dt>Status</dt>
                 <dd>{project.status}</dd>
               </div>
               <div>
-                <dt>Tech</dt>
-                <dd>{project.tags.join(" · ")}</dd>
+                <dt>Built with</dt>
+                <dd>{project.tags.join(", ")}</dd>
               </div>
             </dl>
-          </aside>
-        </header>
+          </div>
 
-        {project.screenshots.length > 0 && (
-          <section className="project-section project-gallery">
-            <div className="project-section-head">
-              <h2>Screenshots</h2>
-              <p>Click to expand</p>
-            </div>
-
-            <button
-              type="button"
-              className="project-featured-shot"
-              onClick={() => setLightboxIndex(activeScreenshot)}
-              aria-label={`View screenshot: ${project.screenshots[activeScreenshot].alt}`}
-            >
-              <Image
-                src={project.screenshots[activeScreenshot].src}
-                alt={project.screenshots[activeScreenshot].alt}
-                fill
-                className="project-featured-shot-image"
-                sizes="(max-width: 1100px) 100vw, 1100px"
-              />
-              <span className="project-featured-shot-label">
-                {project.screenshots[activeScreenshot].alt}
-              </span>
-            </button>
-
-            {project.screenshots.length > 1 && (
-              <div className="project-gallery-strip" role="list">
-                {project.screenshots.map((screenshot, index) => (
-                  <button
-                    key={screenshot.src}
-                    type="button"
-                    role="listitem"
-                    className={`project-gallery-thumb${activeScreenshot === index ? " active" : ""}`}
-                    onClick={() => setActiveScreenshot(index)}
-                    aria-label={`Show screenshot: ${screenshot.alt}`}
-                    aria-current={activeScreenshot === index}
-                  >
-                    <Image
-                      src={screenshot.src}
-                      alt=""
-                      fill
-                      className="project-gallery-thumb-image"
-                      sizes="160px"
-                    />
-                  </button>
+          <div className="detail-main">
+            {shots.length > 0 ? (
+              <div className="detail-shots">
+                {shots.map((shot, i) => (
+                  <figure key={shot.src}>
+                    <button type="button" onClick={() => setLightboxIndex(i)} aria-label={`Enlarge: ${shot.alt}`}>
+                      <Image
+                        src={shot.src}
+                        alt={shot.alt}
+                        fill
+                        priority={i === 0}
+                        sizes="(max-width: 1024px) 100vw, 60vw"
+                      />
+                    </button>
+                    <figcaption>{shot.alt}</figcaption>
+                  </figure>
                 ))}
               </div>
+            ) : project.coverImage ? (
+              <div className="detail-shots">
+                <figure>
+                  <div className="detail-cover">
+                    <Image src={project.coverImage} alt="" fill priority sizes="(max-width: 1024px) 100vw, 60vw" />
+                  </div>
+                </figure>
+              </div>
+            ) : null}
+
+            <section className="detail-body">
+              <h2>About</h2>
+              <p>{project.longDescription}</p>
+
+              <h2>Features</h2>
+              <ul className="detail-features">
+                {project.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            </section>
+
+            {next && next.slug !== project.slug && (
+              <Link href={`/projects/${next.slug}`} className="detail-next">
+                <span className="detail-next-label">Next project</span>
+                <TextRoll lineHeight={1}>{next.title}</TextRoll>
+              </Link>
             )}
-          </section>
-        )}
-
-        <div className="project-content-grid">
-          <section className="project-section">
-            <h2>About</h2>
-            <p className="project-about">{project.longDescription}</p>
-          </section>
-
-          <section className="project-section">
-            <h2>Features</h2>
-            <ul className="project-features">
-              {project.features.map((feature) => (
-                <li key={feature}>
-                  <span className="project-feature-icon" aria-hidden>
-                    ✦
-                  </span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-      </div>
-
-      {lightboxIndex !== null && (
-        <div
-          className="project-lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Screenshot viewer"
-          onClick={closeLightbox}
-        >
-          <button
-            type="button"
-            className="project-lightbox-close"
-            onClick={closeLightbox}
-            aria-label="Close screenshot viewer"
-          >
-            ×
-          </button>
-          {project.screenshots.length > 1 && (
-            <button
-              type="button"
-              className="project-lightbox-nav project-lightbox-prev"
-              onClick={(event) => {
-                event.stopPropagation();
-                showPrev();
-              }}
-              aria-label="Previous screenshot"
-            >
-              ‹
-            </button>
-          )}
-          <div className="project-lightbox-content" onClick={(event) => event.stopPropagation()}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={project.screenshots[lightboxIndex].src}
-              alt={project.screenshots[lightboxIndex].alt}
-              className="project-lightbox-image"
-            />
-            <p className="project-lightbox-caption">{project.screenshots[lightboxIndex].alt}</p>
           </div>
-          {project.screenshots.length > 1 && (
-            <button
-              type="button"
-              className="project-lightbox-nav project-lightbox-next"
-              onClick={(event) => {
-                event.stopPropagation();
-                showNext();
-              }}
-              aria-label="Next screenshot"
-            >
-              ›
-            </button>
-          )}
         </div>
-      )}
-    </div>
+
+        {lightboxIndex !== null && (
+          <div className="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" onClick={closeLightbox}>
+            <button type="button" className="lightbox-close" onClick={closeLightbox} aria-label="Close">
+              ×
+            </button>
+            {shots.length > 1 && (
+              <button
+                type="button"
+                className="lightbox-nav lightbox-prev"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  showPrev();
+                }}
+                aria-label="Previous screenshot"
+              >
+                ‹
+              </button>
+            )}
+            <figure className="lightbox-content" onClick={(event) => event.stopPropagation()}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={shots[lightboxIndex].src} alt={shots[lightboxIndex].alt} />
+              <figcaption>{shots[lightboxIndex].alt}</figcaption>
+            </figure>
+            {shots.length > 1 && (
+              <button
+                type="button"
+                className="lightbox-nav lightbox-next"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  showNext();
+                }}
+                aria-label="Next screenshot"
+              >
+                ›
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </MotionConfig>
   );
 }
