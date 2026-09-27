@@ -1,4 +1,7 @@
-export type ProjectCategory = "web" | "minecraft" | "stardance" | "desktop";
+import type { Locale } from "./i18n";
+import { PROJECTS_DA } from "./projects-da";
+
+export type ProjectCategory ="web" | "minecraft" | "stardance" | "desktop";
 
 export const CATEGORY_LABELS: Record<
   ProjectCategory,
@@ -385,8 +388,40 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-export function getProject(slug: string): Project | undefined {
-  return PROJECTS.find((project) => project.slug === slug);
+export const CATEGORY_LABELS_DA: Record<ProjectCategory, string> = {
+  web: "Hjemmeside & app",
+  minecraft: "Minecraft",
+  stardance: "Stardance HackClub",
+  desktop: "Desktop-program",
+};
+
+const STATUS_DA: Record<string, string> = { Active: "Aktiv" };
+
+export function categoryLabel(category: ProjectCategory, locale: Locale): string {
+  return locale === "da" ? CATEGORY_LABELS_DA[category] : CATEGORY_LABELS[category].long;
+}
+
+export function localizeProject(project: Project, locale: Locale): Project {
+  const da = locale === "da" ? PROJECTS_DA[project.slug] : undefined;
+  if (!da) return project;
+  return {
+    ...project,
+    description: da.description,
+    longDescription: da.longDescription,
+    features: da.features,
+    status: STATUS_DA[project.status] ?? project.status,
+    links: project.links.map((link, index) => ({ ...link, label: da.linkLabels[index] ?? link.label })),
+    screenshots: project.screenshots.map((shot, index) => ({ ...shot, alt: da.screenshotAlts?.[index] ?? shot.alt })),
+  };
+}
+
+export function getProjects(locale: Locale): Project[] {
+  return PROJECTS.map((project) => localizeProject(project, locale));
+}
+
+export function getProject(slug: string, locale: Locale = "en"): Project | undefined {
+  const project = PROJECTS.find((item) => item.slug === slug);
+  return project && localizeProject(project, locale);
 }
 
 export function getAllProjectSlugs(): string[] {

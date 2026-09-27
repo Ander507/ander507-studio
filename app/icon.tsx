@@ -15,8 +15,7 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 16,
-          background:
-            "radial-gradient(60px 60px at 50% 10%, rgba(236,72,153,0.55) 0%, rgba(0,0,0,1) 70%), linear-gradient(135deg, rgba(236,72,153,0.15), rgba(162,28,175,0.12))",
+          background: "#14213d",
           color: "white",
           fontFamily:
             'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',

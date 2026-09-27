@@ -5,24 +5,28 @@ import {
   Globe,
   Instagram,
   Joystick,
-  Link,
+  Link as LinkIcon,
   MessageSquare,
   Twitch,
   Coffee,
   type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { isLocale } from "@/lib/i18n";
+import { getContent } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "@Ander507 — Links",
-  description: "Links and socials for Ander507 — developer building web apps and Minecraft mods.",
-  alternates: { canonical: "/bio" },
-  openGraph: {
-    title: "@Ander507 — Links",
-    description: "Links and socials for Ander507 — developer building web apps and Minecraft mods.",
-    url: "https://ander507.dev/bio",
-    type: "profile",
-  },
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+  const t = getContent(lang).bio;
+  return {
+    title: "@Ander507",
+    description: t.tagline,
+    alternates: { canonical: `/${lang}/bio`, languages: { en: "/en/bio", da: "/da/bio", "x-default": "/bio" } },
+    openGraph: { title: "@Ander507", description: t.tagline, url: `https://ander507.dev/${lang}/bio`, type: "profile" },
+  };
+}
 
 type LinkCategory = "socials" | "work";
 
@@ -32,11 +36,6 @@ interface BioLink {
   icon: LucideIcon;
   category: LinkCategory;
 }
-
-const SECTION_LABELS: Record<LinkCategory, string> = {
-  socials: "Socials",
-  work: "Work & Projects",
-};
 
 const BIO_LINKS: BioLink[] = [
   {
@@ -78,7 +77,7 @@ const BIO_LINKS: BioLink[] = [
   {
     title: "zlib.lol",
     url: "https://www.zlib.lol/",
-    icon: Link,
+    icon: LinkIcon,
     category: "work",
   },
   {
@@ -105,45 +104,47 @@ function LinkCard({ link }: { link: BioLink }) {
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-500/50 hover:shadow-[0_8px_30px_rgba(192,38,211,0.12)]"
+      className="group flex items-center gap-4 rounded-md border border-line bg-paper px-4 py-3 hover:border-ink"
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-zinc-300 transition-colors duration-300 group-hover:bg-fuchsia-500/10 group-hover:text-fuchsia-400">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center text-muted group-hover:text-ink">
         <Icon className="h-5 w-5" aria-hidden />
       </span>
-      <span className="font-medium text-zinc-100">{link.title}</span>
+      <span className="font-semibold">{link.title}</span>
     </a>
   );
 }
 
-export default function BioPage() {
+export default async function BioPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  if (!isLocale(lang)) notFound();
+  const t = getContent(lang).bio;
+  const sectionLabels: Record<LinkCategory, string> = { socials: t.socials, work: t.work };
+
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 py-12 text-zinc-100 sm:py-16">
+    <main className="min-h-screen bg-mist px-4 py-12 sm:py-16">
       <div className="mx-auto flex w-full max-w-md flex-col gap-8">
         <header className="flex flex-col items-center gap-3 text-center">
-          <div
-            className="flex h-24 w-24 items-center justify-center rounded-full border border-zinc-800 bg-gradient-to-br from-zinc-800 to-zinc-900 text-2xl font-bold text-white shadow-inner"
-            aria-hidden
-          >
-            A
-          </div>
+          <span className="h-3 w-3 bg-signal" aria-hidden />
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-white">Anders</h1>
-            <p className="text-sm text-zinc-400">@Ander507</p>
+            <h1 className="text-2xl font-extrabold tracking-tight">Ander507</h1>
+            <p className="text-muted">{t.tagline}</p>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-zinc-500">
-            Full-stack developer, HTX student, &amp; creator.
-          </p>
         </header>
+
+        <Link
+          href="/contact"
+          className="rounded-md bg-ink px-4 py-3.5 text-center font-semibold text-paper hover:bg-ink/85"
+        >
+          {t.hire}
+        </Link>
 
         {CATEGORY_ORDER.map((category) => {
           const links = BIO_LINKS.filter((link) => link.category === category);
 
           return (
             <section key={category} className="flex flex-col gap-3">
-              <h2 className="px-1 text-xs font-semibold uppercase tracking-widest text-zinc-600">
-                {SECTION_LABELS[category]}
-              </h2>
-              <div className="flex flex-col gap-2.5">
+              <h2 className="px-1 text-sm font-semibold text-muted">{sectionLabels[category]}</h2>
+              <div className="flex flex-col gap-2">
                 {links.map((link) => (
                   <LinkCard key={link.title} link={link} />
                 ))}
@@ -151,10 +152,6 @@ export default function BioPage() {
             </section>
           );
         })}
-
-        <footer className="pt-4 text-center">
-          <p className="text-xs text-zinc-600">Coded by @Ander507</p>
-        </footer>
       </div>
     </main>
   );
